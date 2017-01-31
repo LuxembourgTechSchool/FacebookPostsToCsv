@@ -29,7 +29,7 @@ class FacebookPostDataConverter():
 
         # Open the JSON file and create 2 new CSV files. They are automatically overridden.
         #with open( self.file_path ) as data_file, open(posts_csv_filename, 'w') as posts_csv, open(reactions_csv_filename, 'w') as reactions_csv: 
-        with open(posts_csv_filename, 'w') as posts_csv, open(reactions_csv_filename, 'w') as reactions_csv: 
+        with open(posts_csv_filename, 'w', encoding='utf-8') as posts_csv, open(reactions_csv_filename, 'w', encoding='utf-8') as reactions_csv: 
             
             # Load the JSON data
             #data = json.load(data_file, strict = False)
