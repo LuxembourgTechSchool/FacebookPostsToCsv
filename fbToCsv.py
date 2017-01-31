@@ -22,10 +22,11 @@ def run(file_path):
 def validate_arguments():
     if len(sys.argv) >= 2:
         arg = sys.argv[1]
-        if os.path.isfile(arg):
-            return arg
-        else:
-            print('[Error] The file "{}" does not exist!'.format(arg))
+        return arg # Just return the arg if it exists
+        #if os.path.isfile(arg):
+        #    return arg
+        #else:
+        #    print('[Error] The file "{}" does not exist!'.format(arg))
     else:
         print('[Error] 1 Argument is missing. You must give the path of the file containing the Facebook data.')
     

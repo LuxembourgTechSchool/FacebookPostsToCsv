@@ -9,8 +9,8 @@ class FacebookPostDataConverter():
 
     # NONE, LIKE, LOVE, WOW, HAHA, SAD, ANGRY, THANKFUL
 
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self, token):
+        self.token = token
 
     def convertToCsv(self, output_id='default'):
         ''' Opens the JSON file containing the Facebook Graph API result from this query:
@@ -28,10 +28,12 @@ class FacebookPostDataConverter():
         reactions_csv_filename = 'reactions_{}.csv'.format(output_id)
 
         # Open the JSON file and create 2 new CSV files. They are automatically overridden.
-        with open( self.file_path ) as data_file, open(posts_csv_filename, 'w') as posts_csv, open(reactions_csv_filename, 'w') as reactions_csv: 
+        #with open( self.file_path ) as data_file, open(posts_csv_filename, 'w') as posts_csv, open(reactions_csv_filename, 'w') as reactions_csv: 
+        with open(posts_csv_filename, 'w') as posts_csv, open(reactions_csv_filename, 'w') as reactions_csv: 
             
             # Load the JSON data
-            data = json.load(data_file, strict = False)
+            #data = json.load(data_file, strict = False)
+            data = self.__get_fb_data(self.token)
 
             # Open the CSV DictWriters and write the headers
             posts_writer        = csv.DictWriter(posts_csv, fieldnames=self.POST_FIELDNAMES)
@@ -94,4 +96,19 @@ class FacebookPostDataConverter():
             data['type'] = 'LIKE'
 
         return data
+
+    def __get_fb_data(self, token):
+        try:
+            # For Python 3.0 and later
+            from urllib.request import urlopen
+        except ImportError:
+            # Fall back to Python 2's urllib2
+            from urllib2 import urlopen
+
+        url = "https://graph.facebook.com/v2.8/me/posts?limit=5000&fields=message%2Cstory%2Ccreated_time%2Creactions.limit(1000)&access_token={}".format(token)
+        response = urlopen(url)
+        data = response.read().decode("utf-8")
+        return json.loads(data)
+
+
 
