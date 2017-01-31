@@ -6,10 +6,10 @@ import sys
 # Query for Graph API
 # me/posts?limit=5000&fields=message,story,created_time,reactions.limit(1000)
 
-def run(file_path):
+def run(argument):
     print('Script Start.')
 
-    converter = FacebookPostDataConverter(file_path)
+    converter = FacebookPostDataConverter(argument)
 
     files = converter.convertToCsv()
 
@@ -33,7 +33,7 @@ def validate_arguments():
     return None
 
 if __name__ == '__main__':
-    file_path = validate_arguments()
+    argument = validate_arguments()
     
-    if file_path:
-        run(file_path)
+    if argument:
+        run(argument)
