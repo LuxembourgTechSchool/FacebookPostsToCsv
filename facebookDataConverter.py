@@ -45,18 +45,22 @@ class FacebookPostDataConverter():
             # Loop over all post
             for post in data['data']:
                 # Create new post dictionary for the fields:
-                post_dict = self.__get_post_dict(post)
-                posts_writer.writerow(post_dict)
+                try:
+                    post_dict = self.__get_post_dict(post)
+                
+                    posts_writer.writerow(post_dict)
 
-                post_count += 1
+                    post_count += 1
 
-                # Loop over all reactions
-                if 'reactions' in post:
-                    for reaction in post['reactions']['data']:
-                        reaction_dict = self.__get_reaction_dict(reaction, post_dict['id'])
-                        reactions_writer.writerow(reaction_dict)
+                    # Loop over all reactions
+                    if 'reactions' in post:
+                        for reaction in post['reactions']['data']:
+                            reaction_dict = self.__get_reaction_dict(reaction, post_dict['id'])
+                            reactions_writer.writerow(reaction_dict)
 
-                        reaction_count += 1
+                            reaction_count += 1
+                except Exception as exception:
+                    print('SORRY, 1 POST SKIPPED. IT CONTAINS SOMETHING STRANGE.')
 
             success = True
         
