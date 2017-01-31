@@ -81,10 +81,17 @@ class FacebookPostDataConverter():
     def __get_reaction_dict(self, reaction, post):
         ''' Transform a reaction row into a Python dictionary.
         '''
-        data = {
-            'id':   reaction['id'],
-            'name': reaction['name'],
-            'type': reaction['type'],
-            'post': post
-        }
+        data = {}
+        if ('id' in reaction) and ('name' in reaction):
+            data['id'] = reaction['id']
+            data['name'] = reaction['name']
+            data['post'] = post
+
+        if 'type' in reaction:
+            data['type'] = reaction['type']
+        else:
+            print('__get_reaction_dict did not find "type" post "{}", and reaction "{}"'.format(post, reaction))
+            data['type'] = 'LIKE'
+
         return data
+
