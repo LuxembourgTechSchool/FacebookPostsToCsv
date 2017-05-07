@@ -2,4 +2,6 @@
 
 *.csv
 
+posts.json
+
 .vscode/
